@@ -33,17 +33,16 @@ while cap.isOpened():
     # tập hợp các class detect được trong frame hiện tại
     detected_classes_this_frame = set()
 
-    for r in results:
-        boxes = r.boxes
-        for box in boxes:
-            cls = int(box.cls[0])
-            conf = float(box.conf[0])
-            x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-            # nếu detect được, cập nhật tọa độ mới nhất và reset bộ đếm
-            detected_classes_this_frame.add(cls)
-            saved_boxes[cls] = (x1, y1, x2, y2, conf)
-            patience_counters[cls] = MAX_PATIENCE
+    for box in results.object_prediction_list:
+        cls = int(box.category.id)
+        conf = float(box.score.value)
+        x1, y1, x2, y2 = map(int, box.bbox.to_xyxy())
+
+        # nếu detect được, cập nhật tọa độ mới nhất và reset bộ đếm
+        detected_classes_this_frame.add(cls)
+        saved_boxes[cls] = (x1, y1, x2, y2, conf)
+        patience_counters[cls] = MAX_PATIENCE
 
     # VẼ KHUNG HÌNH (Kết hợp cả hàng mới detect và hàng cũ đang được "giữ")
     for cls in list(patience_counters.keys()):
