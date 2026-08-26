@@ -2,15 +2,18 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 import preProcessing
+from MODEL_USING import *
 
 
 # ____________________
-path_model = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.pt"
-model = YOLO(path_model)
+path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.pt"
+path_model_onnx = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.onnx"
+# model = YOLO(path_model_yolo)
 
 cap = cv2.VideoCapture(0)
 
-detection_model = preProcessing.declare_sahi(path_model,0.25)
+# detection_model = preProcessing.detection_model(path_model_yolo,conf=0.25)
+detection_model =  MODEL_YOLO(path_model_yolo)
 class_names = {0:"Person", 1: 'Fire', 2: 'Smoke'}
 # ____________________
 
@@ -23,26 +26,29 @@ while cap.isOpened():
     success, frame = cap.read()
     if not success: break
 
-    clahe_img = preProcessing.clahe_img_ret(frame,1.5,(8,8))
+    clahe_img = preProcessing.clahe_img_ret(frame,1,(8,8))
 
-    # Dự đoán với YOLO
-    results = preProcessing.sahi_img_ret(clahe_img,
-                                        detection_model=detection_model,
-                                        )
-    
+    # # Dự đoán với YOLO
+    # results = preProcessing.sahi_img_ret(clahe_img,
+    #                                     detection_model=detection_model,
+    #                                     )
+    # results = detection_model(clahe_img)
     # tập hợp các class detect được trong frame hiện tại
     detected_classes_this_frame = set()
+    boxes = detection_model.boxes(clahe_img)  # Lấy danh sách boxes của frame hiện tại
 
+    for box in boxes:
+    #   cls = int(box.cls[0])
+        cls = MODEL_YOLO.box_get_cls(box) 
+        # conf = float(box.conf[0])  
+        conf = MODEL_YOLO.box_get_conf(box)
+        # x1, y1, x2, y2 = map(int, box.xyxy[0])  
+        x1, y1, x2, y2 = MODEL_YOLO.box_get_xyxy(box)
 
-    for box in results.object_prediction_list:
-        cls = int(box.category.id)
-        conf = float(box.score.value)
-        x1, y1, x2, y2 = map(int, box.bbox.to_xyxy())
-
-        # nếu detect được, cập nhật tọa độ mới nhất và reset bộ đếm
-        detected_classes_this_frame.add(cls)
-        saved_boxes[cls] = (x1, y1, x2, y2, conf)
-        patience_counters[cls] = MAX_PATIENCE
+    # nếu detect được, cập nhật tọa độ mới nhất và reset bộ đếm
+    detected_classes_this_frame.add(cls)
+    saved_boxes[cls] = (x1, y1, x2, y2, conf)
+    patience_counters[cls] = MAX_PATIENCE
 
     # VẼ KHUNG HÌNH (Kết hợp cả hàng mới detect và hàng cũ đang được "giữ")
     for cls in list(patience_counters.keys()):

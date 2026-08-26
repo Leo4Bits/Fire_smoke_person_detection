@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
+from ultralytics import YOLO
 from sahi import AutoDetectionModel
 from sahi.predict import get_sliced_prediction
 import torch
+import logging
+# tắt log
+logging.getLogger("sahi").setLevel(logging.ERROR)
 
 
 # CLAHE
@@ -49,5 +53,11 @@ def sahi_img_ret(frame,detection_model, overlap_height_ratio=0.2,overlap_width_r
         overlap_height_ratio=overlap_height_ratio,
         overlap_width_ratio=overlap_width_ratio
     )
+
+def detection_model(path:str = "", conf:float = 0.25,opt:str = "default-YOLO"):
+    try:
+        return YOLO(path) if opt == "default-YOLO" else declare_sahi(path,conf=conf)
+    except Exception as e:
+        return f"{e}"
 
 
