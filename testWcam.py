@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
-import preProcessing
+import imgPreProcessing
 from MODEL_USING import *
 
 
@@ -13,7 +13,7 @@ path_model_onnx = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU
 cap = cv2.VideoCapture(0)
 
 # detection_model = preProcessing.detection_model(path_model_yolo,conf=0.25)
-detection_model =  MODEL_YOLO(path_model_yolo)
+detection_model =  MODEL(path_model_yolo)
 class_names = {0:"Person", 1: 'Fire', 2: 'Smoke'}
 # ____________________
 
@@ -26,7 +26,7 @@ while cap.isOpened():
     success, frame = cap.read()
     if not success: break
 
-    clahe_img = preProcessing.clahe_img_ret(frame,1,(8,8))
+    clahe_img = imgPreProcessing.clahe_img_ret(frame,1,(8,8))
 
     # # Dự đoán với YOLO
     # results = preProcessing.sahi_img_ret(clahe_img,
@@ -38,12 +38,7 @@ while cap.isOpened():
     boxes = detection_model.boxes(clahe_img)  # Lấy danh sách boxes của frame hiện tại
 
     for box in boxes:
-    #   cls = int(box.cls[0])
-        cls = MODEL_YOLO.box_get_cls(box) 
-        # conf = float(box.conf[0])  
-        conf = MODEL_YOLO.box_get_conf(box)
-        # x1, y1, x2, y2 = map(int, box.xyxy[0])  
-        x1, y1, x2, y2 = MODEL_YOLO.box_get_xyxy(box)
+        cls, conf, (x1,y1,x2,y2) = MODEL.get_box_info(detection_model, box)
 
     # nếu detect được, cập nhật tọa độ mới nhất và reset bộ đếm
     detected_classes_this_frame.add(cls)
