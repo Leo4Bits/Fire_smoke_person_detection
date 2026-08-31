@@ -9,3 +9,14 @@ Trong SAHI:
 
 Convert sang TensorRT
 yolo export model="C:/Users/trann/Documents/NHAT_NAM_TRAN/WORK_SPACE/NGHIEN_CUU_KHOA_HOC/NCKH_MODEL_AI/BAO_CAO/TONG HOP KET QUA/yolo11l_40kimg/best.pt" format=engine half=True device=0
+
+
+temp (Nhiệt độ)
+
+hum (Độ ẩm)
+
+mq (Khí gas thô)
+
+gas_diff (Độ lệch khí gas so với mẫu trước)
+
+rolling_mean_10 (Trung bình trượt 10 mẫu để chống nhiễu)

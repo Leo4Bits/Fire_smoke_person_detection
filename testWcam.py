@@ -1,24 +1,22 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
-import imgPreProcessing
+from PreProcessing import imgPreProcessing,numPreProcessing
 from MODEL_USING import *
 
 
 # ____________________
 path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.pt"
 path_model_onnx = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.onnx"
-# model = YOLO(path_model_yolo)
 
 cap = cv2.VideoCapture(0)
 
-# detection_model = preProcessing.detection_model(path_model_yolo,conf=0.25)
 detection_model =  MODEL(path_model_yolo)
 class_names = {0:"Person", 1: 'Fire', 2: 'Smoke'}
 # ____________________
 
 # CẤU HÌNH BỘ LỌC THỜI GIAN (TEMPORAL FILTER)
-MAX_PATIENCE = 5  # Số lượng frame tối đa sẽ giữ lại khung hình cũ nếu model bị trượt
+MAX_PATIENCE = 10  # Số lượng frame tối đa sẽ giữ lại khung hình cũ nếu model bị trượt
 patience_counters = {}  # Lưu số frame còn lại cho từng class
 saved_boxes = {}        # Lưu tọa độ cũ của từng class
 
@@ -26,14 +24,9 @@ while cap.isOpened():
     success, frame = cap.read()
     if not success: break
 
+    # tien xu ly anh voi CLAHE
     clahe_img = imgPreProcessing.clahe_img_ret(frame,1,(8,8))
 
-    # # Dự đoán với YOLO
-    # results = preProcessing.sahi_img_ret(clahe_img,
-    #                                     detection_model=detection_model,
-    #                                     )
-    # results = detection_model(clahe_img)
-    # tập hợp các class detect được trong frame hiện tại
     detected_classes_this_frame = set()
     boxes = detection_model.boxes(clahe_img)  # Lấy danh sách boxes của frame hiện tại
 
