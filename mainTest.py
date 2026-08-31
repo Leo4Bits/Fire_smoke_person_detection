@@ -3,18 +3,21 @@ import numpy as np
 from ultralytics import YOLO
 from PreProcessing import imgPreProcessing,numPreProcessing
 from MODEL_USING import *
+from GetDataFromSensor.threadGetData import thread
+from
+import threading
 
 
-# ____________________
+# ____________________MODEL YOLO
 path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.pt"
 path_model_onnx = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.onnx"
-
 cap = cv2.VideoCapture(0)
-
 detection_model =  MODEL(path_model_yolo)
 class_names = {0:"Person", 1: 'Fire', 2: 'Smoke'}
+# ____________________THREAD + RANDOMFOREST
+thread = threading.Thread(target=thread.serial_reader_thread, daemon=True)
+thread.start()
 # ____________________
-
 # CẤU HÌNH BỘ LỌC THỜI GIAN (TEMPORAL FILTER)
 MAX_PATIENCE = 10  # Số lượng frame tối đa sẽ giữ lại khung hình cũ nếu model bị trượt
 patience_counters = {}  # Lưu số frame còn lại cho từng class

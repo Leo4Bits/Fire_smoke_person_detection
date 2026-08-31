@@ -78,7 +78,3 @@ def serial_reader_thread():
     except KeyboardInterrupt as e:
         print(f"Be stopped because of Interupting: {e}")
 
-
-# Khởi chạy Thread Serial
-# thread = threading.Thread(target=serial_reader_thread, daemon=True)
-# thread.start()
