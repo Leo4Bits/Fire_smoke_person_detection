@@ -21,7 +21,7 @@ def gas_diff(pre_num:float, cur_num:float) -> float:
     - Mẫu ngay trước nó: pre_num'''
     return cur_num - pre_num
 
-LABEL_NAMES = {0: 'Bình thường (Normal)', 1: 'Khói (Smoke)', 2: 'Lửa (Fire)'}
+LABEL_NAMES = {0: 'Normal', 1: 'warning', 2: 'critical'}
 
 # Hàm xử lý khi nhận 1 gói dữ liệu realtime (hiện tại là Serial - sẽ đổi qua socket hoặc MQTT)
 def process_realtime_sensor(raw_temp, raw_hum, raw_gas, pre_raw_gas) -> dict:

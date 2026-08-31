@@ -14,8 +14,8 @@ pre_gas
 buf_gas
 
 #data sau predicted
-sensor_info_predicted = {'status': "",
-        'label': 0,
+sensor_info_predicted = {'status': "",# str
+        'label': 0, # int
         'confidence': 0.0,
         'smoothed_data': {
             'temp': 0.0,
@@ -62,10 +62,10 @@ def serial_reader_thread():
                         raw_temp = raw_data["nhiet_do"]
                         raw_hum = raw_data["do_am"]
                         raw_gas = raw_data["khi_gas"]
-                        sensor_info_predicted = numPreProcessing.process_realtime_sensor(raw_temp, raw_hum, raw_gas, pre_gas)
+                        sensor_info_predicted.update(numPreProcessing.process_realtime_sensor(raw_temp, raw_hum, raw_gas, pre_gas))
 
                         # Bổ sung thêm nhãn thời gian (timestamp)
-                        raw_data["thoi_gian"] = time.strftime("%H:%M:%S")
+                        # raw_data["thoi_gian"] = time.strftime("%H:%M:%S")
                         
                         
                         print(f"Đã ghi nhận: {raw_data}")
