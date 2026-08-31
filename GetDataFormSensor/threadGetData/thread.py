@@ -26,10 +26,14 @@ sensor_info_predicted = {'status': "",
 # Mở kết nối với ESP32
 def serial_reader_thread():
     '''Hàm sử dụng để đọc realtime data từ cảm biến - UART
-    - Kết hợp:
-    # Khởi chạy Thread Serial
-    + thread = threading.Thread(target=serial_reader_thread, daemon=True)
-    + thread.start()'''
+        - Kết hợp:
+        
+    Khởi chạy Thread Serial
+        + thread = threading.Thread(target=serial_reader_thread, daemon=True)
+        + thread.start()'''
+    global pre_gas,buf_gas, sensor_info_predicted
+    
+
     try:
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
         print(f"Connected {SERIAL_PORT}. Saving data from sensor")
