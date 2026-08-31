@@ -46,7 +46,7 @@ try:
                     # Nếu file JSON bị đứt đoạn giữa chừng, cũng skip luôn
                     pass 
 
-except KeyboardInterrupt:# Khi bạn nhấn Ctrl+C, chương trình sẽ tự động gom toàn bộ dữ liệu lưu thành file .json
+except KeyboardInterrupt:#nhấn Ctrl+C,sau exit chương trình sẽ tự động gom toàn bộ dữ liệu lưu thành file .json
     with open(JSON_FILE, 'w', encoding='utf-8') as f:
         json.dump(data_list, f, ensure_ascii=False, indent=4)
     

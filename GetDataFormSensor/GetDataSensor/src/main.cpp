@@ -32,7 +32,7 @@ void loop() {
     doc["do_am"] = doAm;
     doc["khi_gas"] = giaTriAOMoiNhat;
     
-    //truyền chuỗi JSON qua cổng Serial (USB)
+    //truyền chuỗi JSON qua cổng Serial (Uart)
     serializeJson(doc, Serial);
     Serial.println(); // Bắt buộc phải có dấu xuống dòng để Python dễ tách lớp
   }
