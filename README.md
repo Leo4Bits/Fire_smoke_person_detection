@@ -33,7 +33,7 @@ Cảm biến:
  **Lưu ý:** làm các bước ở phần "3 nạp chương trình cho esp32 - cài đặt" rồi quay lại 2.2 này
 **Cài đặt extension platformIO**
 - Môi trường: Platform Io
-![](README/Pasted%image&20260904122742.png)
+![](README\createIMG.png)
 
 - Ngôn ngữ: CPP
 - Thư viện:
@@ -89,7 +89,7 @@ lib_deps =
 ## 3. Nạp chương trình cho esp32
 **Cài đặt extension platformIO**
 - Tạo file mới " Create New Project " rồi cấu hình như phần **2.2 Môi trường cần chuẩn bị cho esp32**
-![](README/Pasted%image%20260904123332.png)
+![](README\projectWizard.png)
 - Góc dưới bên trái cho chỗ **BUILD** nhấn **BUILD** và đợi "SUCCESS"
 **Sau khi build xong**
 - Kết nối uart với esp32
