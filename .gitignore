@@ -12,7 +12,7 @@ output/
 *.avi
 *.jpg
 *.jpeg
-*.png
+#*.png
 
 # 3. Python cache và môi trường ảo
 __pycache__/
