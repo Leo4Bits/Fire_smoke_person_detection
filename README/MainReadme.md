@@ -2,6 +2,7 @@
 ### 1.1 MCU:
 **ESP32**
 - Phiên bản: dev kit v1 CP2102
+
 Cảm biến:
 - DHT11
 - MQ135
@@ -88,7 +89,7 @@ lib_deps =
 ## 3. Nạp chương trình cho esp32
 **Cài đặt extension platformIO**
 - Tạo file mới " Create New Project " rồi cấu hình như phần **2.2 Môi trường cần chuẩn bị cho esp32**
-![](Pasted%20image%2020260904123332.png)
+![](/README/Pasted%20image%2020260904123332.png)
 - Góc dưới bên trái cho chỗ **BUILD** nhấn **BUILD** và đợi "SUCCESS"
 **Sau khi build xong**
 - Kết nối uart với esp32
