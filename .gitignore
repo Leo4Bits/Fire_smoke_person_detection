@@ -1,5 +1,5 @@
 # 1. Bỏ qua các file model weights nặng (tránh lỗi vượt dung lượng Git/GitHub)
-*.pt
+# *.pt
 *.pth
 *.onnx
 *.engine
