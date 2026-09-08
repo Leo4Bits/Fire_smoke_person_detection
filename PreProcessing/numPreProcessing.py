@@ -4,7 +4,7 @@ from collections import deque
 import joblib
 import numpy as np
 
-model = joblib.load(r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\random_forest\random_forest_air_quality.pkl")
+model = joblib.load(r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\TEST_MODEL\random_forest_air_quality.pkl")
 
 WINDOW_SIZE = 10
 buf_gas = deque(maxlen=WINDOW_SIZE)

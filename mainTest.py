@@ -8,7 +8,7 @@ import threading
 
 
 # ____________________MODEL YOLO
-path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.pt"
+path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\TEST_MODEL\best.pt"
 path_model_onnx = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\BAO_CAO\TONG HOP KET QUA\yolo11l_40kimg\best.onnx"
 cap = cv2.VideoCapture(0)
 detection_model =  MODEL(path_model_yolo,verbose=False)
@@ -45,6 +45,8 @@ while cap.isOpened():
     rf_conf = thread.sensor_info_predicted["confidence"]
     # VẼ KHUNG HÌNH (Kết hợp cả hàng mới detect và hàng cũ đang được "giữ")
     for cls in list(patience_counters.keys()):
+        if (cls == 0): # skip if person detected
+            continue
         # Nếu frame này model bị trượt class này, trừ đi 1 patience
         if cls not in detected_classes_this_frame:
             patience_counters[cls] -= 1
@@ -68,6 +70,7 @@ while cap.isOpened():
                     print(f"y_center: {y_center}")
             
             # Thêm chữ (ghi chú thêm chữ [Hold] nếu đang dùng khung hình cũ để dễ theo dõi)
+            
             status = "" if cls in detected_classes_this_frame else " [Hold]"
             text_yolo = outputGUI.output_text_yolo(label_name,conf_img)
             cv2.putText(frame, text_yolo, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
