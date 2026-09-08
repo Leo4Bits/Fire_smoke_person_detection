@@ -3,9 +3,8 @@ import numpy as np
 from ultralytics import YOLO
 from PreProcessing import imgPreProcessing,numPreProcessing,outputGUI
 from MODEL_USING import *
-from GetDataFromSensor.threadGetData import thread
+from threadGetData import thread
 import threading
-
 
 # ____________________MODEL YOLO
 path_model_yolo = r"C:\Users\trann\Documents\NHAT_NAM_TRAN\WORK_SPACE\NGHIEN_CUU_KHOA_HOC\NCKH_MODEL_AI\TEST_MODEL\best.pt"
@@ -45,8 +44,8 @@ while cap.isOpened():
     rf_conf = thread.sensor_info_predicted["confidence"]
     # VẼ KHUNG HÌNH (Kết hợp cả hàng mới detect và hàng cũ đang được "giữ")
     for cls in list(patience_counters.keys()):
-        if (cls == 0): # skip if person detected
-            continue
+        # if (cls == 0): # skip if person detected
+        #     continue
         # Nếu frame này model bị trượt class này, trừ đi 1 patience
         if cls not in detected_classes_this_frame:
             patience_counters[cls] -= 1
@@ -82,7 +81,7 @@ while cap.isOpened():
             patience_counters.pop(cls, None)
             saved_boxes.pop(cls, None)
     
-    cv2.imshow("Smoothed YOLOv8 Webcam", frame)
+    cv2.imshow("Smoothed YOLO11L Webcam", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'): break
 
 cap.release()
