@@ -16,7 +16,7 @@ class MODEL_YOLO:
     def yolo_img_res(self, frame, verbose: bool = None): 
         """Trả về kết quả dự đoán của YOLO trên frame"""
         is_verbose = self.verbose if verbose is None else verbose
-        return self.model(frame, verbose=is_verbose)
+        return self.model(frame, verbose=is_verbose, imgsz=640)
 
     def get_yolo_boxes(self, frame, verbose: bool = None):
         """Trả về danh sách boxes của frame hiện tại"""
